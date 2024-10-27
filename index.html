@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joking Off Voting App</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div id="welcome-screen" class="screen active">
+    <h1 class="show-title">Welcome To Joking Off</h1>
+    <p class="tagline">The game where comedians feel pain</p>
+    <img src="stage.jpg" alt="Stage" class="background-image">
+    <button id="start-button">Start Voting</button>
+  </div>
+
+  <!-- Instructions Screen -->
+  <div id="instructions-screen" class="screen hidden">
+    <h2>How It Works</h2>
+    <p>
+      Welcome to "Joking Off"! In this game, comedians will compete to make you laugh by creating jokes based on randomly chosen topics. 
+      Here’s how it works:
+    </p>
+    <ol>
+      <li>Five comedians will perform, each given a topic to craft their jokes.</li>
+      <li>The audience votes on their favorite jokes using a voting system.</li>
+      <li>The comedian with the least votes faces a funny punishment!</li>
+      <li>Once the round is done, the game restarts with new topics, new comedians, and new punishments!</li>
+    </ol>
+    <button id="play-button">Play Game</button>
+  </div>
+
+  <!-- Voting Screen -->
+  <div id="voting-screen" class="screen hidden">
+    <h2>Select a Topic</h2>
+    <div class="options" id="topic-options"></div>
+    <button id="back-to-instructions">Back</button>
+  </div>
+
+  <!-- Names Screen -->
+  <div id="names-screen" class="screen hidden">
+    <h2>Select a Comedian</h2>
+    <div class="options" id="name-options"></div>
+    <button id="back-to-topics">Back</button>
+  </div>
+
+  <!-- Results Screen -->
+  <div id="results-screen" class="screen hidden">
+    <h2>Results</h2>
+    <canvas id="results-chart"></canvas>
+    <button id="next-punishment">Next Punishment</button>
+  </div>
+
+  <!-- Punishments Screen -->
+  <div id="punishment-screen" class="screen hidden">
+    <h2>Select a Punishment</h2>
+    <div class="options" id="punishment-options"></div>
+    <button id="restart-button">Restart</button>
+  </div>
+</body>
+</html>

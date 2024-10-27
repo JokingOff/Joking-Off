@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joking Off - Your Vote, Their Fate!</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen">
+            <h1>Joking Off</h1>
+            <p>Their pain is your laughter!</p>
+            <button id="start-btn">Start Voting</button>
+        </div>
+
+        <!-- Voting Screen -->
+        <div id="voting-screen" class="screen hidden">
+            <h2>Choose a Topic:</h2>
+            <div id="topics-list"></div>
+            <button id="submit-topic-btn">Submit Topic</button>
+        </div>
+
+        <!-- Contestant Screen -->
+        <div id="contestant-screen" class="screen hidden">
+            <h2>Here Are the Contestants!</h2>
+            <div id="contestants-list"></div>
+            <button id="show-results-btn">See Results</button>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen hidden">
+            <h2>Results</h2>
+            <div id="results-list"></div>
+        </div>
+    </div>
+</body>
+</html>
