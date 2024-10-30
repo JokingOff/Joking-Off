@@ -1,40 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joking Off - Your Vote, Their Fate!</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joking Off Voting App</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <div id="app">
-        <!-- Welcome Screen -->
-        <div id="welcome-screen" class="screen">
-            <h1>Joking Off</h1>
-            <p>Their pain is your laughter!</p>
-            <button id="start-btn">Start Voting</button>
-        </div>
+  <!-- Welcome Screen -->
+  <div id="welcome-screen" class="screen active">
+    <h1 class="show-title">Welcome To Joking Off</h1>
+    <p class="tagline">The Game Where Comedians Feel Pain</p>
+    <button id="start-button">Finger Me To Get Started</button>
+  </div>
 
-        <!-- Voting Screen -->
-        <div id="voting-screen" class="screen hidden">
-            <h2>Choose a Topic:</h2>
-            <div id="topics-list"></div>
-            <button id="submit-topic-btn">Submit Topic</button>
-        </div>
+  <!-- Instructions Screen -->
+  <div id="instructions-screen" class="screen hidden">
+    <h2>How It Works</h2>
+    <p>Welcome to "Joking Off"! Here’s how it works:</p>
+    <ol class="rules-list">
+      <li><span class="rule-step">Step 1:</span> Comedians perform jokes based on chosen topics.</li>
+      <li><span class="rule-step">Step 2:</span> The audience votes for their favorite jokes.</li>
+      <li><span class="rule-step">Step 3:</span> The least voted comedian faces a punishment!</li>
+      <li><span class="rule-step">Step 4:</span> New topics, comedians, and punishments each round!</li>
+    </ol>
+    <button id="play-button">Play Game</button>
+  </div>
 
-        <!-- Contestant Screen -->
-        <div id="contestant-screen" class="screen hidden">
-            <h2>Here Are the Contestants!</h2>
-            <div id="contestants-list"></div>
-            <button id="show-results-btn">See Results</button>
-        </div>
+  <!-- Voting Screen -->
+  <div id="voting-screen" class="screen hidden">
+    <h2>Select a Topic</h2>
+    <div class="options" id="topic-options"></div>
+  </div>
 
-        <!-- Results Screen -->
-        <div id="results-screen" class="screen hidden">
-            <h2>Results</h2>
-            <div id="results-list"></div>
-        </div>
-    </div>
+  <!-- Names Screen -->
+  <div id="names-screen" class="screen hidden">
+    <h2>Select a Comedian</h2>
+    <div class="options" id="name-options"></div>
+  </div>
+
+  <!-- Results Screen -->
+  <div id="results-screen" class="screen hidden">
+    <h2>Results</h2>
+    <canvas id="results-chart"></canvas>
+    <button id="next-punishment">Next Punishment</button>
+  </div>
+
+  <!-- Punishment Screen -->
+  <div id="punishment-screen" class="screen hidden">
+    <h2>Select a Punishment</h2>
+    <div class="options" id="punishment-options"></div>
+    <button id="restart-button">Restart</button>
+  </div>
 </body>
 </html>
