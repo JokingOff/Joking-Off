@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const instructionsScreen = document.getElementById("instructions-screen");
-  const votingScreen = document.getElementById("voting-screen");
-  const namesScreen = document.getElementById("names-screen");
-  const resultsScreen = document.getElementById("results-screen");
-  const punishmentScreen = document.getElementById("punishment-screen");
+  const screens = {
+    welcome: document.getElementById("welcome-screen"),
+    instructions: document.getElementById("instructions-screen"),
+    voting: document.getElementById("voting-screen"),
+    names: document.getElementById("names-screen"),
+    results: document.getElementById("results-screen"),
+    punishment: document.getElementById("punishment-screen")
+  };
 
   const startButton = document.getElementById("start-button");
   const playButton = document.getElementById("play-button");
-  const backToInstructions = document.getElementById("back-to-instructions");
-  const backToTopics = document.getElementById("back-to-topics");
   const nextPunishment = document.getElementById("next-punishment");
   const restartButton = document.getElementById("restart-button");
 
@@ -20,104 +20,78 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const topics = [
     ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
-    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"],
-    ["Parental Advice", "Food Fails", "Travel Mishaps", "Awkward Family Moments"],
-    ["Unusual Hobbies", "Overrated Movies", "Dating Disasters", "Tech Troubles"],
-    ["Fashion Faux Pas", "Celebrity Gossip", "Home Improvement Fails", "Holiday Horror Stories"],
-    ["Random Trivia", "Conspiracy Theories", "Office Jokes", "Pet Stories"],
-    ["School Memories", "Awkward Silence", "Food Combinations", "Hobbies"]
+    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"]
   ];
-
   const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
   const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
 
   let currentTopicSetIndex = 0;
-  let votes = [0, 0, 0, 0];
+  let votes = [0, 0, 0, 0]; // Track votes for each comedian
 
-  // Start Button Click Handler
-  startButton.addEventListener("click", () => {
-    switchScreen(welcomeScreen, instructionsScreen);
-  });
-
-  // Play Button Click Handler
-  playButton.addEventListener("click", () => {
-    loadTopics();
-    switchScreen(instructionsScreen, votingScreen);
-  });
-
-  // Back to Instructions Handler
-  backToInstructions.addEventListener("click", () => {
-    switchScreen(votingScreen, instructionsScreen);
-  });
-
-  // Back to Topics Handler
-  backToTopics.addEventListener("click", () => {
-    switchScreen(namesScreen, votingScreen);
-  });
-
-  // Voting Button Click Handler for Topics
-  topicOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      loadNames();
-      switchScreen(votingScreen, namesScreen);
-    }
-  });
-
-  // Voting Button Click Handler for Names
-  nameOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      const selectedName = e.target.textContent;
-      votes.fill(0); // Reset votes for this round
-      switchScreen(namesScreen, resultsScreen);
-      showResults();
-    }
-  });
-
-  // Next Punishment Button Handler
-  nextPunishment.addEventListener("click", () => {
-    loadPunishments();
-    switchScreen(resultsScreen, punishmentScreen);
-  });
-
-  // Restart Button Click Handler
-  restartButton.addEventListener("click", () => {
-    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-    switchScreen(punishmentScreen, votingScreen);
-    loadTopics();
-  });
-
-  // Function to switch screens
-  function switchScreen(hideScreen, showScreen) {
-    hideScreen.classList.remove("active");
-    hideScreen.classList.add("hidden");
-    showScreen.classList.remove("hidden");
-    showScreen.classList.add("active");
+  // Screen switching function
+  function switchScreen(hide, show) {
+    hide.classList.remove("active");
+    hide.classList.add("hidden");
+    show.classList.remove("hidden");
+    show.classList.add("active");
   }
 
-  // Load Topics
+  // Start button
+  startButton.addEventListener("click", () => {
+    switchScreen(screens.welcome, screens.instructions);
+  });
+
+  // Play button
+  playButton.addEventListener("click", () => {
+    loadTopics();
+    switchScreen(screens.instructions, screens.voting);
+  });
+
+  // Next punishment button
+  nextPunishment.addEventListener("click", () => {
+    loadPunishments();
+    switchScreen(screens.results, screens.punishment);
+  });
+
+  // Restart button
+  restartButton.addEventListener("click", () => {
+    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
+    switchScreen(screens.punishment, screens.voting);
+    loadTopics();
+  });
+
+  // Load topics for voting
   function loadTopics() {
     topicOptions.innerHTML = "";
-    const currentTopics = topics[currentTopicSetIndex];
-    currentTopics.forEach(topic => {
+    topics[currentTopicSetIndex].forEach(topic => {
       const button = document.createElement("button");
       button.classList.add("topic-btn");
       button.textContent = topic;
+      button.addEventListener("click", () => {
+        loadNames();
+        switchScreen(screens.voting, screens.names);
+      });
       topicOptions.appendChild(button);
     });
   }
 
-  // Load Names
+  // Load comedian names for voting
   function loadNames() {
     nameOptions.innerHTML = "";
-    comedians.forEach(name => {
+    comedians.forEach((name, index) => {
       const button = document.createElement("button");
       button.classList.add("name-btn");
       button.textContent = name;
+      button.addEventListener("click", () => {
+        votes[index]++;
+        switchScreen(screens.names, screens.results);
+        showResults();
+      });
       nameOptions.appendChild(button);
     });
   }
 
-  // Show Results
+  // Display results chart
   function showResults() {
     const ctx = resultsChart.getContext("2d");
     new Chart(ctx, {
@@ -134,187 +108,13 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       options: {
         scales: {
-          y: {
-            beginAtZero: true
-          }
+          y: { beginAtZero: true }
         }
       }
     });
   }
 
-  // Load Punishments
-  function loadPunishments() {
-    punishmentOptions.innerHTML = "";
-    punishments.forEach(punishment => {
-      const button = document.createElement("button");
-      button.classList.add("punishment-btn");
-      button.textContent = punishment;
-      punishmentOptions.appendChild(button);
-    });
-  }
-});
-document.addEventListener("DOMContentLoaded", function() {
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const instructionsScreen = document.getElementById("instructions-screen");
-  const votingScreen = document.getElementById("voting-screen");
-  const namesScreen = document.getElementById("names-screen");
-  const resultsScreen = document.getElementById("results-screen");
-  const punishmentScreen = document.getElementById("punishment-screen");
-
-  const startButton = document.getElementById("start-button");
-  const playButton = document.getElementById("play-button");
-  const backToInstructions = document.getElementById("back-to-instructions");
-  const backToTopics = document.getElementById("back-to-topics");
-  const nextPunishment = document.getElementById("next-punishment");
-  const restartButton = document.getElementById("restart-button");
-
-  const topicOptions = document.getElementById("topic-options");
-  const nameOptions = document.getElementById("name-options");
-  const punishmentOptions = document.getElementById("punishment-options");
-  const resultsChart = document.getElementById("results-chart");
-
-  const titleFontSelect = document.getElementById('title-font');
-  const sloganFontSelect = document.getElementById('slogan-font');
-  const buttonFontSelect = document.getElementById('button-font');
-
-  titleFontSelect.addEventListener('change', function() {
-    document.querySelector('.show-title').style.fontFamily = this.value;
-  });
-
-  sloganFontSelect.addEventListener('change', function() {
-    document.querySelector('.tagline').style.fontFamily = this.value;
-  });
-
-  buttonFontSelect.addEventListener('change', function() {
-    document.querySelector('#start-button').style.fontFamily = this.value;
-    document.querySelector('#play-button').style.fontFamily = this.value;
-  });
-
-  const topics = [
-    ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
-    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"],
-    ["Parental Advice", "Food Fails", "Travel Mishaps", "Awkward Family Moments"],
-    ["Unusual Hobbies", "Overrated Movies", "Dating Disasters", "Tech Troubles"],
-    ["Fashion Faux Pas", "Celebrity Gossip", "Home Improvement Fails", "Holiday Horror Stories"],
-    ["Random Trivia", "Conspiracy Theories", "Office Jokes", "Pet Stories"],
-    ["School Memories", "Awkward Silence", "Food Combinations", "Hobbies"]
-  ];
-
-  const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
-  const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
-
-  let currentTopicSetIndex = 0;
-  let votes = [0, 0, 0, 0];
-
-  // Start Button Click Handler
-  startButton.addEventListener("click", () => {
-    switchScreen(welcomeScreen, instructionsScreen);
-  });
-
-  // Play Button Click Handler
-  playButton.addEventListener("click", () => {
-    loadTopics();
-    switchScreen(instructionsScreen, votingScreen);
-  });
-
-  // Back to Instructions Handler
-  backToInstructions.addEventListener("click", () => {
-    switchScreen(votingScreen, instructionsScreen);
-  });
-
-  // Back to Topics Handler
-  backToTopics.addEventListener("click", () => {
-    switchScreen(namesScreen, votingScreen);
-  });
-
-  // Voting Button Click Handler for Topics
-  topicOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      loadNames();
-      switchScreen(votingScreen, namesScreen);
-    }
-  });
-
-  // Voting Button Click Handler for Names
-  nameOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      const selectedName = e.target.textContent;
-      votes.fill(0); // Reset votes for this round
-      switchScreen(namesScreen, resultsScreen);
-      showResults();
-    }
-  });
-
-  // Next Punishment Button Handler
-  nextPunishment.addEventListener("click", () => {
-    loadPunishments();
-    switchScreen(resultsScreen, punishmentScreen);
-  });
-
-  // Restart Button Click Handler
-  restartButton.addEventListener("click", () => {
-    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-    switchScreen(punishmentScreen, votingScreen);
-    loadTopics();
-  });
-
-  // Function to switch screens
-  function switchScreen(hideScreen, showScreen) {
-    hideScreen.classList.remove("active");
-    hideScreen.classList.add("hidden");
-    showScreen.classList.remove("hidden");
-    showScreen.classList.add("active");
-  }
-
-  // Load Topics
-  function loadTopics() {
-    topicOptions.innerHTML = "";
-    const currentTopics = topics[currentTopicSetIndex];
-    currentTopics.forEach(topic => {
-      const button = document.createElement("button");
-      button.classList.add("topic-btn");
-      button.textContent = topic;
-      topicOptions.appendChild(button);
-    });
-  }
-
-  // Load Names
-  function loadNames() {
-    nameOptions.innerHTML = "";
-    comedians.forEach(name => {
-      const button = document.createElement("button");
-      button.classList.add("name-btn");
-      button.textContent = name;
-      nameOptions.appendChild(button);
-    });
-  }
-
-  // Show Results
-  function showResults() {
-    const ctx = resultsChart.getContext("2d");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: comedians,
-        datasets: [{
-          label: '# of Votes',
-          data: votes,
-          backgroundColor: 'rgba(0, 123, 255, 0.5)',
-          borderColor: 'rgba(0, 123, 255, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-
-  // Load Punishments
+  // Load punishment options
   function loadPunishments() {
     punishmentOptions.innerHTML = "";
     punishments.forEach(punishment => {
