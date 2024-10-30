@@ -111,17 +111,4 @@ document.addEventListener("DOMContentLoaded", () => {
           y: { beginAtZero: true }
         }
       }
-    });
-  }
-
-  // Load punishments
-  function loadPunishments() {
-    punishmentOptions.innerHTML = "";
-    punishments.forEach(punishment => {
-      const button = document.createElement("button");
-      button.classList.add("punishment-btn");
-      button.textContent = punishment;
-      punishmentOptions.appendChild(button);
-    });
-  }
-});
+   
