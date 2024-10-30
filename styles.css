@@ -1,7 +1,11 @@
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #e0f7fa;
+  background-image: url('./images/background.jpg'); /* Path to your background image */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   margin: 0;
   padding: 0;
   text-align: center;
