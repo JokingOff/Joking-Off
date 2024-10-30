@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
 
   let currentTopicSetIndex = 0;
-  let votes = [0, 0, 0, 0];
+  let votes = [0, 0, 0, 0]; // Track votes for each comedian
 
   // Screen switching function
   function switchScreen(hide, show) {
@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Start button
   startButton.addEventListener("click", () => {
+    console.log("Start button clicked");  // Debugging check
     switchScreen(screens.welcome, screens.instructions);
   });
 
@@ -56,11 +57,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Restart button
   restartButton.addEventListener("click", () => {
     currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
+    votes.fill(0); // Reset votes
     switchScreen(screens.punishment, screens.voting);
     loadTopics();
   });
 
-  // Load topics
+  // Load topics for voting
   function loadTopics() {
     topicOptions.innerHTML = "";
     topics[currentTopicSetIndex].forEach(topic => {
@@ -75,15 +77,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Load names
+  // Load comedian names for voting
   function loadNames() {
     nameOptions.innerHTML = "";
-    comedians.forEach(name => {
+    comedians.forEach((name, index) => {
       const button = document.createElement("button");
       button.classList.add("name-btn");
       button.textContent = name;
       button.addEventListener("click", () => {
-        votes.fill(0); // Reset votes
+        votes[index]++;
         switchScreen(screens.names, screens.results);
         showResults();
       });
@@ -91,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show results chart
+  // Display results chart
   function showResults() {
     const ctx = resultsChart.getContext("2d");
     new Chart(ctx, {
@@ -111,4 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
           y: { beginAtZero: true }
         }
       }
-   
+    });
+  }
+});
