@@ -23,4 +23,105 @@ document.addEventListener("DOMContentLoaded", () => {
     ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"]
   ];
   const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
- 
+  const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
+
+  let currentTopicSetIndex = 0;
+  let votes = [0, 0, 0, 0];
+
+  // Screen switching function
+  function switchScreen(hide, show) {
+    hide.classList.remove("active");
+    hide.classList.add("hidden");
+    show.classList.remove("hidden");
+    show.classList.add("active");
+  }
+
+  // Start button
+  startButton.addEventListener("click", () => {
+    switchScreen(screens.welcome, screens.instructions);
+  });
+
+  // Play button
+  playButton.addEventListener("click", () => {
+    loadTopics();
+    switchScreen(screens.instructions, screens.voting);
+  });
+
+  // Next punishment button
+  nextPunishment.addEventListener("click", () => {
+    loadPunishments();
+    switchScreen(screens.results, screens.punishment);
+  });
+
+  // Restart button
+  restartButton.addEventListener("click", () => {
+    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
+    switchScreen(screens.punishment, screens.voting);
+    loadTopics();
+  });
+
+  // Load topics
+  function loadTopics() {
+    topicOptions.innerHTML = "";
+    topics[currentTopicSetIndex].forEach(topic => {
+      const button = document.createElement("button");
+      button.classList.add("topic-btn");
+      button.textContent = topic;
+      button.addEventListener("click", () => {
+        loadNames();
+        switchScreen(screens.voting, screens.names);
+      });
+      topicOptions.appendChild(button);
+    });
+  }
+
+  // Load names
+  function loadNames() {
+    nameOptions.innerHTML = "";
+    comedians.forEach(name => {
+      const button = document.createElement("button");
+      button.classList.add("name-btn");
+      button.textContent = name;
+      button.addEventListener("click", () => {
+        votes.fill(0); // Reset votes
+        switchScreen(screens.names, screens.results);
+        showResults();
+      });
+      nameOptions.appendChild(button);
+    });
+  }
+
+  // Show results chart
+  function showResults() {
+    const ctx = resultsChart.getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: comedians,
+        datasets: [{
+          label: '# of Votes',
+          data: votes,
+          backgroundColor: 'rgba(0, 123, 255, 0.5)',
+          borderColor: 'rgba(0, 123, 255, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  }
+
+  // Load punishments
+  function loadPunishments() {
+    punishmentOptions.innerHTML = "";
+    punishments.forEach(punishment => {
+      const button = document.createElement("button");
+      button.classList.add("punishment-btn");
+      button.textContent = punishment;
+      punishmentOptions.appendChild(button);
+    });
+  }
+});
