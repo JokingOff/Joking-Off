@@ -19,31 +19,31 @@
   <!-- Instructions Screen -->
   <div id="instructions-screen" class="screen hidden">
     <h2>How It Works</h2>
-    <p>
-      Welcome to "Joking Off"! In this game, comedians will compete to make you laugh by creating jokes based on randomly chosen topics. 
-      Here’s how it works:
-    </p>
+    <p>Welcome to "Joking Off"! Here’s how it works:</p>
     <ol>
-      <li>Five comedians will perform, each given a topic to craft their jokes.</li>
-      <li>The audience votes on their favorite jokes using a voting system.</li>
-      <li>The comedian with the least votes faces a funny punishment!</li>
-      <li>Once the round is done, the game restarts with new topics, new comedians, and new punishments!</li>
+      <li>Comedians perform jokes based on chosen topics.</li>
+      <li>The audience votes for their favorite jokes.</li>
+      <li>The least voted comedian faces a punishment!</li>
+      <li>New topics, comedians, and punishments each round!</li>
     </ol>
     <button id="play-button">Play Game</button>
+    <button class="back-btn">Back</button>
   </div>
 
   <!-- Voting Screen -->
   <div id="voting-screen" class="screen hidden">
     <h2>Select a Topic</h2>
     <div class="options" id="topic-options"></div>
-    <button id="back-to-instructions">Back</button>
+    <button class="nav-btn">Next</button>
+    <button class="back-btn">Back</button>
   </div>
 
   <!-- Names Screen -->
   <div id="names-screen" class="screen hidden">
     <h2>Select a Comedian</h2>
     <div class="options" id="name-options"></div>
-    <button id="back-to-topics">Back</button>
+    <button class="nav-btn">Next</button>
+    <button class="back-btn">Back</button>
   </div>
 
   <!-- Results Screen -->
@@ -51,9 +51,10 @@
     <h2>Results</h2>
     <canvas id="results-chart"></canvas>
     <button id="next-punishment">Next Punishment</button>
+    <button class="back-btn">Back</button>
   </div>
 
-  <!-- Punishments Screen -->
+  <!-- Punishment Screen -->
   <div id="punishment-screen" class="screen hidden">
     <h2>Select a Punishment</h2>
     <div class="options" id="punishment-options"></div>
@@ -61,3 +62,9 @@
   </div>
 </body>
 </html>
+<!-- Voting Screen -->
+<div id="voting-screen" class="screen hidden">
+  <h2>Select a Topic</h2>
+  <div class="options" id="topic-options"></div>
+  <button id="back-to-instructions">Back</button>
+</div>
