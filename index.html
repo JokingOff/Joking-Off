@@ -12,19 +12,18 @@
   <div id="welcome-screen" class="screen active">
     <h1 class="show-title">Welcome To Joking Off</h1>
     <p class="tagline">The Game Where Comedians Feel Pain</p>
-    <button id="start-button" class="start-btn">Finger Me To Get Started</button>
-    <img src="stage.jpg" alt="Stage" class="background-image">
+    <button id="start-button">Finger Me To Get Started</button>
   </div>
 
   <!-- Instructions Screen -->
   <div id="instructions-screen" class="screen hidden">
     <h2>How It Works</h2>
     <p>Welcome to "Joking Off"! Here’s how it works:</p>
-    <ol>
-      <li>Comedians perform jokes based on chosen topics.</li>
-      <li>The audience votes for their favorite jokes.</li>
-      <li>The least voted comedian faces a punishment!</li>
-      <li>New topics, comedians, and punishments each round!</li>
+    <ol class="rules-list">
+      <li><span class="rule-step">Step 1:</span> Comedians perform jokes based on chosen topics.</li>
+      <li><span class="rule-step">Step 2:</span> The audience votes for their favorite jokes.</li>
+      <li><span class="rule-step">Step 3:</span> The least voted comedian faces a punishment!</li>
+      <li><span class="rule-step">Step 4:</span> New topics, comedians, and punishments each round!</li>
     </ol>
     <button id="play-button">Play Game</button>
   </div>
@@ -32,13 +31,13 @@
   <!-- Voting Screen -->
   <div id="voting-screen" class="screen hidden">
     <h2>Select a Topic</h2>
-    <div id="topic-options" class="options"></div>
+    <div class="options" id="topic-options"></div>
   </div>
 
   <!-- Names Screen -->
   <div id="names-screen" class="screen hidden">
     <h2>Select a Comedian</h2>
-    <div id="name-options" class="options"></div>
+    <div class="options" id="name-options"></div>
   </div>
 
   <!-- Results Screen -->
@@ -51,7 +50,7 @@
   <!-- Punishment Screen -->
   <div id="punishment-screen" class="screen hidden">
     <h2>Select a Punishment</h2>
-    <div id="punishment-options" class="options"></div>
+    <div class="options" id="punishment-options"></div>
     <button id="restart-button">Restart</button>
   </div>
 </body>
