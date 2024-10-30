@@ -344,4 +344,6 @@ document.addEventListener("DOMContentLoaded", function() {
       screens[nextIndex].classList.add('active');
     }
   });
-});
+});git revert 7d5b6ae
+git revert 0768cd0
+git revert 4956d3f
