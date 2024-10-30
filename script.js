@@ -1,359 +1,101 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const instructionsScreen = document.getElementById("instructions-screen");
-  const votingScreen = document.getElementById("voting-screen");
-  const namesScreen = document.getElementById("names-screen");
-  const resultsScreen = document.getElementById("results-screen");
-  const punishmentScreen = document.getElementById("punishment-screen");
-
-  const startButton = document.getElementById("start-button");
-  const playButton = document.getElementById("play-button");
-  const backToInstructions = document.getElementById("back-to-instructions");
-  const backToTopics = document.getElementById("back-to-topics");
-  const nextPunishment = document.getElementById("next-punishment");
-  const restartButton = document.getElementById("restart-button");
-
-  const topicOptions = document.getElementById("topic-options");
-  const nameOptions = document.getElementById("name-options");
-  const punishmentOptions = document.getElementById("punishment-options");
-  const resultsChart = document.getElementById("results-chart");
-
-  const topics = [
-    ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
-    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"],
-    ["Parental Advice", "Food Fails", "Travel Mishaps", "Awkward Family Moments"],
-    ["Unusual Hobbies", "Overrated Movies", "Dating Disasters", "Tech Troubles"],
-    ["Fashion Faux Pas", "Celebrity Gossip", "Home Improvement Fails", "Holiday Horror Stories"],
-    ["Random Trivia", "Conspiracy Theories", "Office Jokes", "Pet Stories"],
-    ["School Memories", "Awkward Silence", "Food Combinations", "Hobbies"]
-  ];
-
-  const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
-  const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
-
-  let currentTopicSetIndex = 0;
-  let votes = [0, 0, 0, 0];
-
-  // Start Button Click Handler
-  startButton.addEventListener("click", () => {
-    switchScreen(welcomeScreen, instructionsScreen);
-  });
-
-  // Play Button Click Handler
-  playButton.addEventListener("click", () => {
-    loadTopics();
-    switchScreen(instructionsScreen, votingScreen);
-  });
-
-  // Back to Instructions Handler
-  backToInstructions.addEventListener("click", () => {
-    switchScreen(votingScreen, instructionsScreen);
-  });
-
-  // Back to Topics Handler
-  backToTopics.addEventListener("click", () => {
-    switchScreen(namesScreen, votingScreen);
-  });
-
-  // Voting Button Click Handler for Topics
-  topicOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      loadNames();
-      switchScreen(votingScreen, namesScreen);
-    }
-  });
-
-  // Voting Button Click Handler for Names
-  nameOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      const selectedName = e.target.textContent;
-      votes.fill(0); // Reset votes for this round
-      switchScreen(namesScreen, resultsScreen);
-      showResults();
-    }
-  });
-
-  // Next Punishment Button Handler
-  nextPunishment.addEventListener("click", () => {
-    loadPunishments();
-    switchScreen(resultsScreen, punishmentScreen);
-  });
-
-  // Restart Button Click Handler
-  restartButton.addEventListener("click", () => {
-    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-    switchScreen(punishmentScreen, votingScreen);
-    loadTopics();
-  });
-
-  // Function to switch screens
-  function switchScreen(hideScreen, showScreen) {
-    hideScreen.classList.remove("active");
-    hideScreen.classList.add("hidden");
-    showScreen.classList.remove("hidden");
-    showScreen.classList.add("active");
-  }
-
-  // Load Topics
-  function loadTopics() {
-    topicOptions.innerHTML = "";
-    const currentTopics = topics[currentTopicSetIndex];
-    currentTopics.forEach(topic => {
-      const button = document.createElement("button");
-      button.classList.add("topic-btn");
-      button.textContent = topic;
-      topicOptions.appendChild(button);
-    });
-  }
-
-  // Load Names
-  function loadNames() {
-    nameOptions.innerHTML = "";
-    comedians.forEach(name => {
-      const button = document.createElement("button");
-      button.classList.add("name-btn");
-      button.textContent = name;
-      nameOptions.appendChild(button);
-    });
-  }
-
-  // Show Results
-  function showResults() {
-    const ctx = resultsChart.getContext("2d");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: comedians,
-        datasets: [{
-          label: '# of Votes',
-          data: votes,
-          backgroundColor: 'rgba(0, 123, 255, 0.5)',
-          borderColor: 'rgba(0, 123, 255, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-
-  // Load Punishments
-  function loadPunishments() {
-    punishmentOptions.innerHTML = "";
-    punishments.forEach(punishment => {
-      const button = document.createElement("button");
-      button.classList.add("punishment-btn");
-      button.textContent = punishment;
-      punishmentOptions.appendChild(button);
-    });
-  }
-});
-document.addEventListener("DOMContentLoaded", function() {
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const instructionsScreen = document.getElementById("instructions-screen");
-  const votingScreen = document.getElementById("voting-screen");
-  const namesScreen = document.getElementById("names-screen");
-  const resultsScreen = document.getElementById("results-screen");
-  const punishmentScreen = document.getElementById("punishment-screen");
-
-  const startButton = document.getElementById("start-button");
-  const playButton = document.getElementById("play-button");
-  const backToInstructions = document.getElementById("back-to-instructions");
-  const backToTopics = document.getElementById("back-to-topics");
-  const nextPunishment = document.getElementById("next-punishment");
-  const restartButton = document.getElementById("restart-button");
-
-  const topicOptions = document.getElementById("topic-options");
-  const nameOptions = document.getElementById("name-options");
-  const punishmentOptions = document.getElementById("punishment-options");
-  const resultsChart = document.getElementById("results-chart");
-
-  const titleFontSelect = document.getElementById('title-font');
-  const sloganFontSelect = document.getElementById('slogan-font');
-  const buttonFontSelect = document.getElementById('button-font');
-
-  titleFontSelect.addEventListener('change', function() {
-    document.querySelector('.show-title').style.fontFamily = this.value;
-  });
-
-  sloganFontSelect.addEventListener('change', function() {
-    document.querySelector('.tagline').style.fontFamily = this.value;
-  });
-
-  buttonFontSelect.addEventListener('change', function() {
-    document.querySelector('#start-button').style.fontFamily = this.value;
-    document.querySelector('#play-button').style.fontFamily = this.value;
-  });
-
-  const topics = [
-    ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
-    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"],
-    ["Parental Advice", "Food Fails", "Travel Mishaps", "Awkward Family Moments"],
-    ["Unusual Hobbies", "Overrated Movies", "Dating Disasters", "Tech Troubles"],
-    ["Fashion Faux Pas", "Celebrity Gossip", "Home Improvement Fails", "Holiday Horror Stories"],
-    ["Random Trivia", "Conspiracy Theories", "Office Jokes", "Pet Stories"],
-    ["School Memories", "Awkward Silence", "Food Combinations", "Hobbies"]
-  ];
-
-  const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
-  const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
-
-  let currentTopicSetIndex = 0;
-  let votes = [0, 0, 0, 0];
-
-  // Start Button Click Handler
-  startButton.addEventListener("click", () => {
-    switchScreen(welcomeScreen, instructionsScreen);
-  });
-
-  // Play Button Click Handler
-  playButton.addEventListener("click", () => {
-    loadTopics();
-    switchScreen(instructionsScreen, votingScreen);
-  });
-
-  // Back to Instructions Handler
-  backToInstructions.addEventListener("click", () => {
-    switchScreen(votingScreen, instructionsScreen);
-  });
-
-  // Back to Topics Handler
-  backToTopics.addEventListener("click", () => {
-    switchScreen(namesScreen, votingScreen);
-  });
-
-  // Voting Button Click Handler for Topics
-  topicOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      loadNames();
-      switchScreen(votingScreen, namesScreen);
-    }
-  });
-
-  // Voting Button Click Handler for Names
-  nameOptions.addEventListener("click", (e) => {
-    if (e.target.tagName === "BUTTON") {
-      const selectedName = e.target.textContent;
-      votes.fill(0); // Reset votes for this round
-      switchScreen(namesScreen, resultsScreen);
-      showResults();
-    }
-  });
-
-  // Next Punishment Button Handler
-  nextPunishment.addEventListener("click", () => {
-    loadPunishments();
-    switchScreen(resultsScreen, punishmentScreen);
-  });
-
-  // Restart Button Click Handler
-  restartButton.addEventListener("click", () => {
-    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-    switchScreen(punishmentScreen, votingScreen);
-    loadTopics();
-  });
-
-  // Function to switch screens
-  function switchScreen(hideScreen, showScreen) {
-    hideScreen.classList.remove("active");
-    hideScreen.classList.add("hidden");
-    showScreen.classList.remove("hidden");
-    showScreen.classList.add("active");
-  }
-
-  // Load Topics
-  function loadTopics() {
-    topicOptions.innerHTML = "";
-    const currentTopics = topics[currentTopicSetIndex];
-    currentTopics.forEach(topic => {
-      const button = document.createElement("button");
-      button.classList.add("topic-btn");
-      button.textContent = topic;
-      topicOptions.appendChild(button);
-    });
-  }
-
-  // Load Names
-  function loadNames() {
-    nameOptions.innerHTML = "";
-    comedians.forEach(name => {
-      const button = document.createElement("button");
-      button.classList.add("name-btn");
-      button.textContent = name;
-      nameOptions.appendChild(button);
-    });
-  }
-
-  // Show Results
-  function showResults() {
-    const ctx = resultsChart.getContext("2d");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: comedians,
-        datasets: [{
-          label: '# of Votes',
-          data: votes,
-          backgroundColor: 'rgba(0, 123, 255, 0.5)',
-          borderColor: 'rgba(0, 123, 255, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  }
-
-  // Load Punishments
-  function loadPunishments() {
-    punishmentOptions.innerHTML = "";
-    punishments.forEach(punishment => {
-      const button = document.createElement("button");
-      button.classList.add("punishment-btn");
-      button.textContent = punishment;
-      punishmentOptions.appendChild(button);
-    });
-  }
-});// Array of potential topics
-const topics = [
-  "Food", "Politics", "Sports", "Movies", 
-  "Technology", "Music", "Travel", "Fashion", 
-  "Health", "Science"
-];
-
-// Function to randomly select 4 unique topics
-function getRandomTopics() {
-  let shuffled = topics.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 4); // Get the first 4 after shuffling
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e0f7fa; /* Light Blue */
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
 
-// Render topics on the voting screen
-function renderTopics() {
-  const topicContainer = document.getElementById("topic-options");
-  topicContainer.innerHTML = ''; // Clear previous topics
-
-  let selectedTopics = getRandomTopics();
-  
-  selectedTopics.forEach(topic => {
-    const topicBtn = document.createElement("button");
-    topicBtn.className = "topic-btn";
-    topicBtn.textContent = topic;
-    topicContainer.appendChild(topicBtn);
-  });
+/* Screen Styles */
+.screen {
+  display: none;
+  padding: 50px 20px;
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
 }
 
-// Call renderTopics when the voting screen is shown
-document.getElementById('play-button').addEventListener('click', () => {
-  renderTopics();
-  switchScreen('voting-screen');
-});
+.screen.active {
+  display: block;
+}
+
+/* Background Image */
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the entire background */
+  z-index: -1; /* Send to back */
+}
+
+/* Title and Tagline */
+.show-title, .tagline {
+  color: white; /* Set text color to white */
+}
+
+.show-title {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.tagline {
+  font-size: 24px;
+  margin-bottom: 30px;
+  line-height: 1.5; /* Adjust line height for better readability */
+}
+
+/* Buttons */
+button {
+  background-color: #0288d1;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  margin: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+  position: absolute; /* Enable absolute positioning for the button */
+  top: 50%; /* Default top position */
+  left: 50%; /* Default left position */
+  transform: translate(-50%, -50%); /* Center the button by default */
+}
+
+button:hover {
+  background-color: #0277bd;
+}
+
+/* Voting Options */
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.topic-btn, .name-btn, .punishment-btn {
+  margin: 10px;
+  font-size: 18px;
+}
+
+/* Results List */
+#results-list {
+  margin-top: 20px;
+  font-size: 22px;
+  color: #01579b;
+}
+
+/* Chart Styles */
+canvas {
+  max-width: 600px;
+  margin: auto;
+}/* Options Layout */
+.options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns layout */
+  gap: 20px; /* Space between buttons */
+  justify-items: center; /* Center items horizontally */
+  margin-top: 20px;
+}
