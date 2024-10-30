@@ -86,9 +86,10 @@ button:hover {
 /* Options */
 .options {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 20px; /* Space between options */
+  margin-bottom: 30px; /* Space before back button */
 }
 
 /* Option Buttons */
