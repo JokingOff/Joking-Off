@@ -98,30 +98,4 @@ document.addEventListener("DOMContentLoaded", () => {
       type: "bar",
       data: {
         labels: comedians,
-        datasets: [{
-          label: '# of Votes',
-          data: votes,
-          backgroundColor: 'rgba(0, 123, 255, 0.5)',
-          borderColor: 'rgba(0, 123, 255, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: { beginAtZero: true }
-        }
-      }
-    });
-  }
-
-  // Load punishment options
-  function loadPunishments() {
-    punishmentOptions.innerHTML = "";
-    punishments.forEach(punishment => {
-      const button = document.createElement("button");
-      button.classList.add("punishment-btn");
-      button.textContent = punishment;
-      punishmentOptions.appendChild(button);
-    });
-  }
-});
+       
