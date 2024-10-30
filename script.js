@@ -324,4 +324,24 @@ document.addEventListener("DOMContentLoaded", function() {
       punishmentOptions.appendChild(button);
     });
   }
+});document.querySelectorAll('.nav-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const currentScreen = document.querySelector('.screen.active');
+    const screens = Array.from(document.querySelectorAll('.screen'));
+    const currentIndex = screens.indexOf(currentScreen);
+    let nextIndex;
+
+    if (button.classList.contains('next-btn')) {
+      nextIndex = currentIndex + 1;
+    } else if (button.classList.contains('back-btn')) {
+      nextIndex = currentIndex - 1;
+    }
+
+    if (nextIndex >= 0 && nextIndex < screens.length) {
+      currentScreen.classList.remove('active');
+      currentScreen.classList.add('hidden');
+      screens[nextIndex].classList.remove('hidden');
+      screens[nextIndex].classList.add('active');
+    }
+  });
 });
