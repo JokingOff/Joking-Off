@@ -54,5 +54,12 @@
     <div class="options" id="punishment-options"></div>
     <button id="restart-button">Restart</button>
   </div>
+
+  <script>
+    document.getElementById('start-button').addEventListener('click', function() {
+      document.getElementById('welcome-screen').classList.add('hidden');
+      document.getElementById('instructions-screen').classList.remove('hidden');
+    });
+  </script>
 </body>
 </html>
