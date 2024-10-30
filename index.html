@@ -14,6 +14,7 @@
     <p class="tagline animated-tagline">The Game Where Comedians Feel Pain</p>
     <button id="start-button" class="start-btn">Finger Me To Get Started</button>
     <img src="stage.jpg" alt="Stage" class="background-image">
+    <button class="nav-btn next-btn">Next &rarr;</button>
   </div>
 
   <!-- Instructions Screen -->
@@ -27,23 +28,24 @@
       <li>New topics, comedians, and punishments each round!</li>
     </ol>
     <button id="play-button">Play Game</button>
-    <button class="back-btn">Back</button>
+    <button class="nav-btn back-btn">&larr; Back</button>
+    <button class="nav-btn next-btn">Next &rarr;</button>
   </div>
 
   <!-- Voting Screen -->
   <div id="voting-screen" class="screen hidden">
     <h2>Select a Topic</h2>
     <div class="options" id="topic-options"></div>
-    <button class="nav-btn">Next</button>
-    <button class="back-btn">Back</button>
+    <button class="nav-btn next-btn">Next &rarr;</button>
+    <button class="nav-btn back-btn">&larr; Back</button>
   </div>
 
   <!-- Names Screen -->
   <div id="names-screen" class="screen hidden">
     <h2>Select a Comedian</h2>
     <div class="options" id="name-options"></div>
-    <button class="nav-btn">Next</button>
-    <button class="back-btn">Back</button>
+    <button class="nav-btn next-btn">Next &rarr;</button>
+    <button class="nav-btn back-btn">&larr; Back</button>
   </div>
 
   <!-- Results Screen -->
@@ -51,7 +53,7 @@
     <h2>Results</h2>
     <canvas id="results-chart"></canvas>
     <button id="next-punishment">Next Punishment</button>
-    <button class="back-btn">Back</button>
+    <button class="nav-btn back-btn">&larr; Back</button>
   </div>
 
   <!-- Punishment Screen -->
@@ -59,6 +61,7 @@
     <h2>Select a Punishment</h2>
     <div class="options" id="punishment-options"></div>
     <button id="restart-button">Restart</button>
+    <button class="nav-btn back-btn">&larr; Back</button>
   </div>
 </body>
 </html>
