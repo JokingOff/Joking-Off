@@ -6,11 +6,21 @@
   <title>Joking Off Voting App</title>
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-database.js"></script>
   <script defer src="script.js"></script>
 </head>
 <body>
+  <!-- Registration Screen -->
+  <div id="registration-screen" class="screen active">
+    <h2>Register to Vote</h2>
+    <input type="text" id="username" placeholder="Enter your name">
+    <button id="register-button">Register</button>
+  </div>
+
   <!-- Welcome Screen -->
-  <div id="welcome-screen" class="screen active">
+  <div id="welcome-screen" class="screen hidden">
     <h1 class="show-title">Welcome To Joking Off</h1>
     <p class="tagline">The Game Where Comedians Feel Pain</p>
     <button id="start-button">Start Game</button>
