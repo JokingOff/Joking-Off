@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     voting: document.getElementById("voting-screen"),
     names: document.getElementById("names-screen"),
     results: document.getElementById("results-screen"),
-    punishment: document.getElementById("punishment-screen")
+    punishment: document.getElementById("punishment-screen"),
+    generateTopics: document.getElementById("generate-topics-screen"),
+    voteComedian: document.getElementById("vote-comedian-screen")
   };
 
   // Button elements
@@ -14,12 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const playButton = document.getElementById("play-button");
   const nextPunishmentButton = document.getElementById("next-punishment");
   const restartButton = document.getElementById("restart-button");
+  const generateTopicsButton = document.getElementById("generate-topics-button");
+  const proceedToVoteButton = document.getElementById("proceed-to-vote-button");
 
   // Options and results elements
   const topicOptions = document.getElementById("topic-options");
   const nameOptions = document.getElementById("name-options");
   const punishmentOptions = document.getElementById("punishment-options");
   const resultsChart = document.getElementById("results-chart");
+  const newTopicOptions = document.getElementById("new-topic-options");
+  const comedianVoteOptions = document.getElementById("comedian-vote-options");
 
   // Game data
   const topics = [
@@ -28,6 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
   const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
   const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
+  
+  const possibleTopics = [
+    "Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes",
+    "Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating",
+    "Embarrassing Moments", "High School Days", "Vacation Mishaps", "Food Fails",
+    "Sibling Rivalries", "First Jobs", "Breakup Stories", "Parenting Struggles"
+  ];
 
   let currentTopicSetIndex = 0;
   let votes = [0, 0, 0, 0];
@@ -67,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadTopics(); // Reload topics for the new round
   });
 
-  // Function to load topics for voting
+  // Load topics for voting screen
   function loadTopics() {
     topicOptions.innerHTML = ""; // Clear existing topics
     topics[currentTopicSetIndex].forEach(topic => {
@@ -82,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Function to load comedian names for voting
+  // Load comedian names for voting
   function loadNames() {
     nameOptions.innerHTML = ""; // Clear existing names
     comedians.forEach((name, index) => {
@@ -98,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Function to show results chart
+  // Show results chart
   function showResults() {
     const ctx = resultsChart.getContext("2d");
 
@@ -128,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Function to load punishments for the punishment screen
+  // Load punishments
   function loadPunishments() {
     punishmentOptions.innerHTML = ""; // Clear existing punishments
     punishments.forEach(punishment => {
@@ -136,6 +149,57 @@ document.addEventListener("DOMContentLoaded", () => {
       button.classList.add("punishment-btn");
       button.textContent = punishment;
       punishmentOptions.appendChild(button);
+    });
+  }
+
+  // Generate 4 random topics
+  function generateRandomTopics() {
+    const selectedTopics = [];
+    while (selectedTopics.length < 4) {
+      const topic = possibleTopics[Math.floor(Math.random() * possibleTopics.length)];
+      if (!selectedTopics.includes(topic)) {
+        selectedTopics.push(topic);
+      }
+    }
+    return selectedTopics;
+  }
+
+  // Load new topics on Page 6
+  function loadNewTopics() {
+    newTopicOptions.innerHTML = ""; // Clear existing topics
+    const topics = generateRandomTopics();
+    topics.forEach(topic => {
+      const topicDiv = document.createElement("div");
+      topicDiv.classList.add("topic-item");
+      topicDiv.textContent = topic;
+      newTopicOptions.appendChild(topicDiv);
+    });
+  }
+
+  // Generate new topics on button click
+  generateTopicsButton.addEventListener("click", () => {
+    loadNewTopics();
+  });
+
+  // Proceed to comedian voting on Page 7
+  proceedToVoteButton.addEventListener("click", () => {
+    loadComedianVoting();
+    switchScreen(screens.generateTopics, screens.voteComedian);
+  });
+
+  // Load comedian voting options for Page 7
+  function loadComedianVoting() {
+    comedianVoteOptions.innerHTML = ""; // Clear existing comedian options
+    comedians.forEach((comedian, index) => {
+      const button = document.createElement("button");
+      button.classList.add("comedian-vote-btn");
+      button.textContent = comedian;
+      button.addEventListener("click", () => {
+        votes[index]++;
+        switchScreen(screens.voteComedian, screens.results); // Move to results screen
+        showResults(); // Display the updated results
+      });
+      comedianVoteOptions.appendChild(button);
     });
   }
 });
