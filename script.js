@@ -28,7 +28,7 @@ const screens = {
   newComedianVoteChart: document.getElementById("new-comedian-vote-chart-screen")
 };
 
-// User and voting data
+// User data
 let currentUser = null;
 const topics = ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"];
 const newTopics = ["Food Fails", "Sibling Rivalries", "Breakup Stories", "Parenting Struggles"];
@@ -39,61 +39,20 @@ let topicChartInstance, comedianVoteChartInstance, newTopicChartInstance, newCom
 
 // Functions
 function switchScreen(hide, show) {
-  hide.classList.remove("active");
-  hide.classList.add("hidden");
-  show.classList.remove("hidden");
-  show.classList.add("active");
+  if (hide && show) {
+    hide.classList.remove("active");
+    hide.classList.add("hidden");
+    show.classList.remove("hidden");
+    show.classList.add("active");
+  } else {
+    console.error("Switch screen error: Element not found", hide, show);
+  }
 }
 
+// Register user
 function registerUser(username) {
   currentUser = username;
-  console.log("User registered:", currentUser); // Debugging log
-}
-
-function castVote(type, choice) {
-  if (!currentUser) {
-    alert("Please register before voting.");
-    return;
-  }
-
-  db.ref(`votes/${type}`).push({
-    user: currentUser,
-    choice: choice
-  });
-}
-
-function updateChartWithVotes(chartInstance, canvas, data, label) {
-  const labels = Object.keys(data);
-  const values = Object.values(data);
-
-  if (chartInstance) chartInstance.destroy();
-  return new Chart(canvas.getContext("2d"), {
-    type: "bar",
-    data: {
-      labels: labels,
-      datasets: [{
-        label: label,
-        data: values,
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        borderColor: 'rgba(0, 0, 0, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: { scales: { y: { beginAtZero: true } } }
-  });
-}
-
-function countVotes(snapshot) {
-  const voteCounts = {};
-  snapshot.forEach((childSnapshot) => {
-    const vote = childSnapshot.val();
-    if (voteCounts[vote.choice]) {
-      voteCounts[vote.choice]++;
-    } else {
-      voteCounts[vote.choice] = 1;
-    }
-  });
-  return voteCounts;
+  console.log("User registered:", currentUser);
 }
 
 // Event listeners
@@ -102,7 +61,7 @@ document.getElementById("register-button").addEventListener("click", () => {
   if (username) {
     registerUser(username);
     alert("Registered successfully as " + username);
-    switchScreen(screens.registration, screens.welcome);  // Move to Welcome Screen after registration
+    switchScreen(screens.registration, screens.welcome); // Move to Welcome Screen
   } else {
     alert("Please enter a valid name.");
   }
@@ -151,6 +110,15 @@ function loadOptions(containerId, options, type) {
   });
 }
 
+// Voting functionality
+function castVote(type, choice) {
+  if (!currentUser) {
+    alert("Please register before voting.");
+    return;
+  }
+  db.ref(`votes/${type}`).push({ user: currentUser, choice: choice });
+}
+
 // Real-time voting updates
 db.ref("votes/topic").on("value", (snapshot) => {
   const votes = countVotes(snapshot);
@@ -171,3 +139,35 @@ db.ref("votes/newComedian").on("value", (snapshot) => {
   const votes = countVotes(snapshot);
   newComedianVoteChartInstance = updateChartWithVotes(newComedianVoteChartInstance, document.getElementById("new-comedian-vote-chart"), votes, "Final Comedian Votes");
 });
+
+// Count votes helper
+function countVotes(snapshot) {
+  const voteCounts = {};
+  snapshot.forEach((childSnapshot) => {
+    const vote = childSnapshot.val();
+    voteCounts[vote.choice] = (voteCounts[vote.choice] || 0) + 1;
+  });
+  return voteCounts;
+}
+
+// Update chart helper
+function updateChartWithVotes(chartInstance, canvas, data, label) {
+  const labels = Object.keys(data);
+  const values = Object.values(data);
+
+  if (chartInstance) chartInstance.destroy();
+  return new Chart(canvas.getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: label,
+        data: values,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        borderColor: 'rgba(0, 0, 0, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+  });
+}
