@@ -23,14 +23,13 @@ body {
   display: block;
 }
 
-/* Temporary Debugging Style for Visible Transitions */
 .hidden {
-  opacity: 0.5; /* Semi-transparent to indicate hidden state */
+  opacity: 0; /* To indicate hidden state */
   pointer-events: none;
 }
 
 .active {
-  opacity: 1; /* Fully visible */
+  opacity: 1;
   pointer-events: auto;
   transition: opacity 0.3s ease-in-out;
 }
@@ -118,9 +117,11 @@ button:hover {
 }
 
 /* Results Chart */
-canvas {
+#results-chart {
+  width: 100%;
   max-width: 600px;
   height: 400px;
+  background-color: #f9f9f9; /* Light background for visibility */
   margin: auto;
-  background-color: white;
+  border: 1px solid #ddd;
 }
