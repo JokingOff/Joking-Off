@@ -1,114 +1,57 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  background-image: url('./images/background.jpg'); /* Adjust path as needed */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joking Off Voting App</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Welcome Screen -->
+  <div id="welcome-screen" class="screen active">
+    <h1 class="show-title">Welcome To Joking Off</h1>
+    <p class="tagline">The Game Where Comedians Feel Pain</p>
+    <button id="start-button">Start Game</button>
+  </div>
 
-/* Screen Styles */
-.screen {
-  display: none;
-  padding: 50px 20px;
-  position: relative;
-  height: 100vh;
-}
+  <!-- Instructions Screen -->
+  <div id="instructions-screen" class="screen hidden">
+    <h2>How It Works</h2>
+    <p>Welcome to "Joking Off"! Here’s how it works:</p>
+    <ol class="rules-list">
+      <li><span class="rule-step">Step 1:</span> Comedians perform jokes based on chosen topics.</li>
+      <li><span class="rule-step">Step 2:</span> The audience votes for their favorite jokes.</li>
+      <li><span class="rule-step">Step 3:</span> The least voted comedian faces a punishment!</li>
+      <li><span class="rule-step">Step 4:</span> New topics, comedians, and punishments each round!</li>
+    </ol>
+    <button id="play-button">Play Game</button>
+  </div>
 
-.screen.active {
-  display: block;
-}
+  <!-- Voting Screen -->
+  <div id="voting-screen" class="screen hidden">
+    <h2>Select a Topic</h2>
+    <div class="options" id="topic-options"></div>
+  </div>
 
-/* Title and Tagline */
-.show-title, .tagline {
-  color: #333;
-}
+  <!-- Names Screen -->
+  <div id="names-screen" class="screen hidden">
+    <h2>Select a Comedian</h2>
+    <div class="options" id="name-options"></div>
+  </div>
 
-.show-title {
-  font-size: 48px;
-  margin-bottom: 10px;
-}
+  <!-- Results Screen -->
+  <div id="results-screen" class="screen hidden">
+    <h2>Results</h2>
+    <canvas id="results-chart"></canvas>
+    <button id="next-punishment">Next Punishment</button>
+  </div>
 
-.tagline {
-  font-size: 24px;
-  margin-bottom: 30px;
-  line-height: 1.5;
-}
-
-/* Button Styles */
-button {
-  background-color: #0288d1;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  margin: 10px;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #0277bd;
-}
-
-/* Options Layout */
-.options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.topic-btn, .name-btn, .punishment-btn {
-  background-color: #0288d1;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.topic-btn:hover, .name-btn:hover, .punishment-btn:hover {
-  background-color: #0277bd;
-}
-
-/* Rules List Styling */
-.rules-list {
-  text-align: left;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 0;
-  font-size: 18px;
-  list-style-type: none;
-}
-
-.rules-list li {
-  margin: 15px 0;
-  padding: 10px;
-  background-color: #f1f1f1;
-  color: #333;
-  border-left: 5px solid #0288d1;
-  border-radius: 4px;
-}
-
-.rule-step {
-  font-weight: bold;
-  color: #0288d1;
-  margin-right: 5px;
-  display: inline-block;
-}
-
-/* Results Chart */
-canvas {
-  max-width: 600px;
-  height: 400px;
-  margin: auto;
-  background-color: white;
-}
+  <!-- Punishment Screen -->
+  <div id="punishment-screen" class="screen hidden">
+    <h2>Select a Punishment</h2>
+    <div class="options" id="punishment-options"></div>
+    <button id="restart-button">Restart</button>
+  </div>
+</body>
+</html>
