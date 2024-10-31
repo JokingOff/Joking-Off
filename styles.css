@@ -124,4 +124,11 @@ button:hover {
   background-color: #f9f9f9; /* Light background for visibility */
   margin: auto;
   border: 1px solid #ddd;
+}/* Background for the Welcome Screen */
+#welcome-screen {
+  background-image: url('./Mic.jpg'); /* Adjust path if needed */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
