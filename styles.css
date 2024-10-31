@@ -1,7 +1,7 @@
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0; /* Fallback background */
+  background-color: #f0f0f0;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -13,13 +13,10 @@ body {
   padding: 50px 20px;
   position: relative;
   height: 100vh;
-  opacity: 0;
-  transition: opacity 0.5s ease;
 }
 
 .screen.active {
   display: block;
-  opacity: 1;
 }
 
 .hidden {
@@ -33,7 +30,7 @@ body {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Welcome Screen Background and Overlay */
+/* Background for the Welcome Screen */
 #welcome-screen {
   background-image: url('/Users/jesus.toscano.-nd/Desktop/Joking-Off-App/Mic.jpg');
   background-size: cover;
@@ -41,39 +38,20 @@ body {
   background-repeat: no-repeat;
 }
 
-#welcome-screen::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
-  z-index: 0;
-}
-
-#welcome-screen h1, #welcome-screen p {
-  position: relative;
-  z-index: 1; /* Ensures text appears above overlay */
-}
-
 /* Title and Tagline */
 .show-title, .tagline {
-  color: #fff;
+  color: #333;
 }
 
 .show-title {
-  font-size: 52px;
+  font-size: 48px;
   margin-bottom: 10px;
-  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .tagline {
-  font-size: 26px;
+  font-size: 24px;
   margin-bottom: 30px;
   line-height: 1.5;
-  color: #ddd;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 /* Button Styles */
@@ -86,7 +64,6 @@ button {
   font-size: 18px;
   cursor: pointer;
   border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   transition: background-color 0.3s;
 }
 
@@ -94,9 +71,15 @@ button:hover {
   background-color: #0277bd;
 }
 
-/* Specific Button Styles */
+/* Options Layout */
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .topic-btn, .name-btn, .punishment-btn {
-  background-color: #039be5;
+  background-color: #0288d1;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -107,23 +90,8 @@ button:hover {
   transition: background-color 0.3s;
 }
 
-.topic-btn:hover {
+.topic-btn:hover, .name-btn:hover, .punishment-btn:hover {
   background-color: #0277bd;
-}
-
-.name-btn:hover {
-  background-color: #01579b;
-}
-
-.punishment-btn:hover {
-  background-color: #01497c;
-}
-
-/* Options Layout */
-.options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
 /* Rules List Styling */
@@ -152,49 +120,12 @@ button:hover {
   display: inline-block;
 }
 
-/* Results Chart Styling */
+/* Results Chart */
 #results-chart {
   width: 100%;
   max-width: 600px;
   height: 400px;
   background-color: #f9f9f9;
   margin: auto;
-  border: 2px solid #0288d1;
-  border-radius: 10px;
-  padding: 20px;
-}
-
-/* Voting Feedback Animation */
-.vote-feedback {
-  color: #4caf50;
-  font-weight: bold;
-  text-align: center;
-  font-size: 20px;
-  animation: fadeOut 1s forwards;
-  margin-top: 15px;
-}
-
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .show-title {
-    font-size: 32px;
-  }
-
-  .tagline {
-    font-size: 18px;
-  }
-
-  .rules-list {
-    font-size: 16px;
-  }
-
-  button {
-    padding: 10px 20px;
-    font-size: 16px;
-  }
+  border: 1px solid #ddd;
 }
