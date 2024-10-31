@@ -94,17 +94,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show results chart with slight delay for rendering
+  // Show results chart with black bars for a white background
   function showResults() {
     const ctx = resultsChart.getContext("2d");
 
     setTimeout(() => {
       if (resultsChartInstance) {
-        // Update chart data if it already exists
         resultsChartInstance.data.datasets[0].data = votes;
         resultsChartInstance.update();
       } else {
-        // Create chart only if it doesn’t already exist
         resultsChartInstance = new Chart(ctx, {
           type: "bar",
           data: {
@@ -112,8 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
             datasets: [{
               label: '# of Votes',
               data: votes,
-              backgroundColor: 'rgba(0, 123, 255, 0.5)',
-              borderColor: 'rgba(0, 123, 255, 1)',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              borderColor: 'rgba(0, 0, 0, 1)',
               borderWidth: 1
             }]
           },
