@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
     switchScreen(screens.instructions, screens.topicSelection);
   });
 
-  // **FIXED: Navigate to Comedian Selection screen from Topic Chart screen**
   proceedToComedianSelection.addEventListener("click", () => {
     loadOptions(comedianOptions, comedians, (index) => {
       votes.fill(0); // Reset votes
@@ -108,9 +107,21 @@ document.addEventListener("DOMContentLoaded", () => {
       switchScreen(screens.generateNewTopics, screens.newTopicChart);
       newTopicChartInstance = showChart(newTopicChartInstance, newTopicChartCanvas, newTopics, votes, "New Topic Votes");
     });
+    switchScreen(screens.comedianVoteChart, screens.generateNewTopics);
   });
 
   proceedToNewTopicChartButton.addEventListener("click", () => {
+    switchScreen(screens.newTopicChart, screens.newComedianSelection);
+    loadOptions(newComedianOptions, comedians, (index) => {
+      votes.fill(0); // Reset votes
+      votes[index]++; // Record vote for new comedian
+      switchScreen(screens.newComedianSelection, screens.newComedianVoteChart);
+      newComedianVoteChartInstance = showChart(newComedianVoteChartInstance, newComedianVoteChartCanvas, comedians, votes, "Final Comedian Votes");
+    });
+  });
+
+  proceedToNewComedianSelection.addEventListener("click", () => {
+    // Proceed from New Topic Chart to New Comedian Selection
     switchScreen(screens.newTopicChart, screens.newComedianSelection);
     loadOptions(newComedianOptions, comedians, (index) => {
       votes.fill(0); // Reset votes
