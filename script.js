@@ -26,10 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
 
   let currentTopicSetIndex = 0;
-  let votes = [0, 0, 0, 0]; // Track votes for each comedian
-  let resultsChartInstance; // Holds the chart instance
+  let votes = [0, 0, 0, 0];
+  let resultsChartInstance;
 
-  // Screen switching function
   function switchScreen(hide, show) {
     hide.classList.remove("active");
     hide.classList.add("hidden");
@@ -38,33 +37,28 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`Switched from ${hide.id} to ${show.id}`);
   }
 
-  // Start button
   startButton.addEventListener("click", () => {
-    console.log("Start button clicked");  // Debugging check
+    console.log("Start button clicked");
     switchScreen(screens.welcome, screens.instructions);
   });
 
-  // Play button
   playButton.addEventListener("click", () => {
     loadTopics();
     switchScreen(screens.instructions, screens.voting);
   });
 
-  // Next punishment button
   nextPunishment.addEventListener("click", () => {
     loadPunishments();
     switchScreen(screens.results, screens.punishment);
   });
 
-  // Restart button
   restartButton.addEventListener("click", () => {
     currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-    votes.fill(0); // Reset votes
+    votes.fill(0);
     switchScreen(screens.punishment, screens.voting);
     loadTopics();
   });
 
-  // Load topics for voting
   function loadTopics() {
     topicOptions.innerHTML = "";
     topics[currentTopicSetIndex].forEach(topic => {
@@ -79,7 +73,90 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Load comedian names for voting
+  function loadNames() {
+    nameOptions.innerHTML = "";
+    comedians.forEach((name, index) => {
+      const button = document.createElement("button");
+      button.classList.add("name-btn");
+      button.textContent = name;
+      button.addEventHere’s the completed `script.js` code, with updated chart visibility settings and debugging logs included:
+
+```javascript
+document.addEventListener("DOMContentLoaded", () => {
+  const screens = {
+    welcome: document.getElementById("welcome-screen"),
+    instructions: document.getElementById("instructions-screen"),
+    voting: document.getElementById("voting-screen"),
+    names: document.getElementById("names-screen"),
+    results: document.getElementById("results-screen"),
+    punishment: document.getElementById("punishment-screen")
+  };
+
+  const startButton = document.getElementById("start-button");
+  const playButton = document.getElementById("play-button");
+  const nextPunishment = document.getElementById("next-punishment");
+  const restartButton = document.getElementById("restart-button");
+
+  const topicOptions = document.getElementById("topic-options");
+  const nameOptions = document.getElementById("name-options");
+  const punishmentOptions = document.getElementById("punishment-options");
+  const resultsChart = document.getElementById("results-chart");
+
+  const topics = [
+    ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
+    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"]
+  ];
+  const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
+  const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
+
+  let currentTopicSetIndex = 0;
+  let votes = [0, 0, 0, 0];
+  let resultsChartInstance;
+
+  function switchScreen(hide, show) {
+    hide.classList.remove("active");
+    hide.classList.add("hidden");
+    show.classList.remove("hidden");
+    show.classList.add("active");
+    console.log(`Switched from ${hide.id} to ${show.id}`);
+  }
+
+  startButton.addEventListener("click", () => {
+    console.log("Start button clicked");
+    switchScreen(screens.welcome, screens.instructions);
+  });
+
+  playButton.addEventListener("click", () => {
+    loadTopics();
+    switchScreen(screens.instructions, screens.voting);
+  });
+
+  nextPunishment.addEventListener("click", () => {
+    loadPunishments();
+    switchScreen(screens.results, screens.punishment);
+  });
+
+  restartButton.addEventListener("click", () => {
+    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
+    votes.fill(0);
+    switchScreen(screens.punishment, screens.voting);
+    loadTopics();
+  });
+
+  function loadTopics() {
+    topicOptions.innerHTML = "";
+    topics[currentTopicSetIndex].forEach(topic => {
+      const button = document.createElement("button");
+      button.classList.add("topic-btn");
+      button.textContent = topic;
+      button.addEventListener("click", () => {
+        loadNames();
+        switchScreen(screens.voting, screens.names);
+      });
+      topicOptions.appendChild(button);
+    });
+  }
+
   function loadNames() {
     nameOptions.innerHTML = "";
     comedians.forEach((name, index) => {
@@ -95,7 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Show results chart with black bars for a white background
   function showResults() {
     const ctx = resultsChart.getContext("2d");
 
@@ -103,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (resultsChartInstance) {
         resultsChartInstance.data.datasets[0].data = votes;
         resultsChartInstance.update();
+        console.log("Chart updated with votes:", votes);
       } else {
         resultsChartInstance = new Chart(ctx, {
           type: "bar",
@@ -111,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
             datasets: [{
               label: '# of Votes',
               data: votes,
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Black bars for contrast
               borderColor: 'rgba(0, 0, 0, 1)',
               borderWidth: 1
             }]
@@ -122,6 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }
         });
+        console.log("Chart created with votes:", votes);
       }
     }, 100); // Delay to ensure the screen switch is complete
   }
