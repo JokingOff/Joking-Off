@@ -47,6 +47,7 @@ function switchScreen(hide, show) {
 
 function registerUser(username) {
   currentUser = username;
+  console.log("User registered:", currentUser); // Debugging log
 }
 
 function castVote(type, choice) {
@@ -101,7 +102,7 @@ document.getElementById("register-button").addEventListener("click", () => {
   if (username) {
     registerUser(username);
     alert("Registered successfully as " + username);
-    switchScreen(screens.registration, screens.welcome);
+    switchScreen(screens.registration, screens.welcome);  // Move to Welcome Screen after registration
   } else {
     alert("Please enter a valid name.");
   }
