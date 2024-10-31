@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentTopicSetIndex = 0;
   let votes = [0, 0, 0, 0]; // Track votes for each comedian
+  let resultsChartInstance; // Holds the chart instance
 
   // Screen switching function
   function switchScreen(hide, show) {
@@ -93,26 +94,34 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Display results chart
+  // Show results chart
   function showResults() {
     const ctx = resultsChart.getContext("2d");
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: comedians,
-        datasets: [{
-          label: '# of Votes',
-          data: votes,
-          backgroundColor: 'rgba(0, 123, 255, 0.5)',
-          borderColor: 'rgba(0, 123, 255, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: { beginAtZero: true }
+
+    // If chart already exists, update data
+    if (resultsChartInstance) {
+      resultsChartInstance.data.datasets[0].data = votes;
+      resultsChartInstance.update();
+    } else {
+      // Create the chart only once
+      resultsChartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: comedians,
+          datasets: [{
+            label: '# of Votes',
+            data: votes,
+            backgroundColor: 'rgba(0, 123, 255, 0.5)',
+            borderColor: 'rgba(0, 123, 255, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true }
+          }
         }
-      }
-    });
+      });
+    }
   }
 });
