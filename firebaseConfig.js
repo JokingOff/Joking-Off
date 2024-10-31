@@ -1,22 +1,22 @@
 // firebaseConfig.js
 
-// Import Firebase functions as modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-// Your Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB6gnN_NW-UbP1L-K1v2kIzrL1dOx8TPc8",
-  authDomain: "jokingoffvotingapp.firebaseapp.com",
-  projectId: "jokingoffvotingapp",
-  storageBucket: "jokingoffvotingapp.firebasestorage.app",
-  messagingSenderId: "594652598461",
-  appId: "1:594652598461:web:058b9ffeff0f648783e7d4",
-  measurementId: "G-4N3HP48YJS"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  databaseURL: "YOUR_DATABASE_URL",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getDatabase(app);
 
-export { app, analytics }; // Export Firebase app and analytics if needed
+// Export Firebase instances for use in other files
+export { app, db };
