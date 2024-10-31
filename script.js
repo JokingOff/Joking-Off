@@ -29,36 +29,62 @@ document.addEventListener("DOMContentLoaded", () => {
   let votes = [0, 0, 0, 0];
   let resultsChartInstance;
 
+  // Screen switching function with added checks
   function switchScreen(hide, show) {
-    hide.classList.remove("active");
-    hide.classList.add("hidden");
-    show.classList.remove("hidden");
-    show.classList.add("active");
-    console.log(`Switched from ${hide.id} to ${show.id}`);
+    if (hide && show) {
+      hide.classList.remove("active");
+      hide.classList.add("hidden");
+      show.classList.remove("hidden");
+      show.classList.add("active");
+      console.log(`Switched from ${hide.id} to ${show.id}`);
+    } else {
+      console.error("Switch screen failed: elements not found", hide, show);
+    }
   }
 
-  startButton.addEventListener("click", () => {
-    console.log("Start button clicked");
-    switchScreen(screens.welcome, screens.instructions);
-  });
+  // Start button
+  if (startButton) {
+    startButton.addEventListener("click", () => {
+      console.log("Start button clicked");
+      switchScreen(screens.welcome, screens.instructions);
+    });
+  } else {
+    console.error("Start button not found");
+  }
 
-  playButton.addEventListener("click", () => {
-    loadTopics();
-    switchScreen(screens.instructions, screens.voting);
-  });
+  // Play button
+  if (playButton) {
+    playButton.addEventListener("click", () => {
+      loadTopics();
+      switchScreen(screens.instructions, screens.voting);
+    });
+  } else {
+    console.error("Play button not found");
+  }
 
-  nextPunishment.addEventListener("click", () => {
-    loadPunishments();
-    switchScreen(screens.results, screens.punishment);
-  });
+  // Next punishment button
+  if (nextPunishment) {
+    nextPunishment.addEventListener("click", () => {
+      loadPunishments();
+      switchScreen(screens.results, screens.punishment);
+    });
+  } else {
+    console.error("Next punishment button not found");
+  }
 
-  restartButton.addEventListener("click", () => {
-    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-    votes.fill(0);
-    switchScreen(screens.punishment, screens.voting);
-    loadTopics();
-  });
+  // Restart button
+  if (restartButton) {
+    restartButton.addEventListener("click", () => {
+      currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
+      votes.fill(0);
+      switchScreen(screens.punishment, screens.voting);
+      loadTopics();
+    });
+  } else {
+    console.error("Restart button not found");
+  }
 
+  // Load topics for voting
   function loadTopics() {
     topicOptions.innerHTML = "";
     topics[currentTopicSetIndex].forEach(topic => {
@@ -73,90 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function loadNames() {
-    nameOptions.innerHTML = "";
-    comedians.forEach((name, index) => {
-      const button = document.createElement("button");
-      button.classList.add("name-btn");
-      button.textContent = name;
-      button.addEventHere’s the completed `script.js` code, with updated chart visibility settings and debugging logs included:
-
-```javascript
-document.addEventListener("DOMContentLoaded", () => {
-  const screens = {
-    welcome: document.getElementById("welcome-screen"),
-    instructions: document.getElementById("instructions-screen"),
-    voting: document.getElementById("voting-screen"),
-    names: document.getElementById("names-screen"),
-    results: document.getElementById("results-screen"),
-    punishment: document.getElementById("punishment-screen")
-  };
-
-  const startButton = document.getElementById("start-button");
-  const playButton = document.getElementById("play-button");
-  const nextPunishment = document.getElementById("next-punishment");
-  const restartButton = document.getElementById("restart-button");
-
-  const topicOptions = document.getElementById("topic-options");
-  const nameOptions = document.getElementById("name-options");
-  const punishmentOptions = document.getElementById("punishment-options");
-  const resultsChart = document.getElementById("results-chart");
-
-  const topics = [
-    ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
-    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"]
-  ];
-  const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
-  const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
-
-  let currentTopicSetIndex = 0;
-  let votes = [0, 0, 0, 0];
-  let resultsChartInstance;
-
-  function switchScreen(hide, show) {
-    hide.classList.remove("active");
-    hide.classList.add("hidden");
-    show.classList.remove("hidden");
-    show.classList.add("active");
-    console.log(`Switched from ${hide.id} to ${show.id}`);
-  }
-
-  startButton.addEventListener("click", () => {
-    console.log("Start button clicked");
-    switchScreen(screens.welcome, screens.instructions);
-  });
-
-  playButton.addEventListener("click", () => {
-    loadTopics();
-    switchScreen(screens.instructions, screens.voting);
-  });
-
-  nextPunishment.addEventListener("click", () => {
-    loadPunishments();
-    switchScreen(screens.results, screens.punishment);
-  });
-
-  restartButton.addEventListener("click", () => {
-    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-    votes.fill(0);
-    switchScreen(screens.punishment, screens.voting);
-    loadTopics();
-  });
-
-  function loadTopics() {
-    topicOptions.innerHTML = "";
-    topics[currentTopicSetIndex].forEach(topic => {
-      const button = document.createElement("button");
-      button.classList.add("topic-btn");
-      button.textContent = topic;
-      button.addEventListener("click", () => {
-        loadNames();
-        switchScreen(screens.voting, screens.names);
-      });
-      topicOptions.appendChild(button);
-    });
-  }
-
+  // Load comedian names for voting
   function loadNames() {
     nameOptions.innerHTML = "";
     comedians.forEach((name, index) => {
@@ -172,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Show results chart with black bars for contrast on a white background
   function showResults() {
     const ctx = resultsChart.getContext("2d");
 
@@ -188,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
             datasets: [{
               label: '# of Votes',
               data: votes,
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Black bars for contrast
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
               borderColor: 'rgba(0, 0, 0, 1)',
               borderWidth: 1
             }]
@@ -201,6 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         console.log("Chart created with votes:", votes);
       }
-    }, 100); // Delay to ensure the screen switch is complete
+    }, 100);
   }
 });
