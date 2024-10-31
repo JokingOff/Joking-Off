@@ -23,6 +23,18 @@ body {
   display: block;
 }
 
+/* Temporary Debugging Style for Visible Transitions */
+.hidden {
+  opacity: 0.5; /* Semi-transparent to indicate hidden state */
+  pointer-events: none;
+}
+
+.active {
+  opacity: 1; /* Fully visible */
+  pointer-events: auto;
+  transition: opacity 0.3s ease-in-out;
+}
+
 /* Title and Tagline */
 .show-title, .tagline {
   color: #333;
