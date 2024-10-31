@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Screen elements
   const screens = {
     welcome: document.getElementById("welcome-screen"),
     instructions: document.getElementById("instructions-screen"),
@@ -8,16 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
     punishment: document.getElementById("punishment-screen")
   };
 
+  // Button elements
   const startButton = document.getElementById("start-button");
   const playButton = document.getElementById("play-button");
-  const nextPunishment = document.getElementById("next-punishment");
+  const nextPunishmentButton = document.getElementById("next-punishment");
   const restartButton = document.getElementById("restart-button");
 
+  // Options and results elements
   const topicOptions = document.getElementById("topic-options");
   const nameOptions = document.getElementById("name-options");
   const punishmentOptions = document.getElementById("punishment-options");
   const resultsChart = document.getElementById("results-chart");
 
+  // Game data
   const topics = [
     ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
     ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"]
@@ -29,64 +33,43 @@ document.addEventListener("DOMContentLoaded", () => {
   let votes = [0, 0, 0, 0];
   let resultsChartInstance;
 
-  // Screen switching function with added checks
-  function switchScreen(hide, show) {
-    if (hide && show) {
-      hide.classList.remove("active");
-      hide.classList.add("hidden");
-      show.classList.remove("hidden");
-      show.classList.add("active");
-      console.log(`Switched from ${hide.id} to ${show.id}`);
+  // Function to switch screens
+  function switchScreen(hideScreen, showScreen) {
+    if (hideScreen && showScreen) {
+      hideScreen.classList.remove("active");
+      hideScreen.classList.add("hidden");
+      showScreen.classList.remove("hidden");
+      showScreen.classList.add("active");
     } else {
-      console.error("Switch screen failed: elements not found", hide, show);
+      console.error("Switch screen failed: screens not found", hideScreen, showScreen);
     }
   }
 
-  // Start button
-  if (startButton) {
-    startButton.addEventListener("click", () => {
-      console.log("Start button clicked");
-      switchScreen(screens.welcome, screens.instructions);
-    });
-  } else {
-    console.error("Start button not found");
-  }
+  // Event listeners for navigation buttons
+  startButton?.addEventListener("click", () => {
+    switchScreen(screens.welcome, screens.instructions);
+  });
 
-  // Play button
-  if (playButton) {
-    playButton.addEventListener("click", () => {
-      loadTopics();
-      switchScreen(screens.instructions, screens.voting);
-    });
-  } else {
-    console.error("Play button not found");
-  }
+  playButton?.addEventListener("click", () => {
+    loadTopics();
+    switchScreen(screens.instructions, screens.voting);
+  });
 
-  // Next punishment button
-  if (nextPunishment) {
-    nextPunishment.addEventListener("click", () => {
-      loadPunishments();
-      switchScreen(screens.results, screens.punishment);
-    });
-  } else {
-    console.error("Next punishment button not found");
-  }
+  nextPunishmentButton?.addEventListener("click", () => {
+    loadPunishments();
+    switchScreen(screens.results, screens.punishment);
+  });
 
-  // Restart button
-  if (restartButton) {
-    restartButton.addEventListener("click", () => {
-      currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
-      votes.fill(0);
-      switchScreen(screens.punishment, screens.voting);
-      loadTopics();
-    });
-  } else {
-    console.error("Restart button not found");
-  }
+  restartButton?.addEventListener("click", () => {
+    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
+    votes.fill(0); // Reset votes for new round
+    switchScreen(screens.punishment, screens.voting);
+    loadTopics(); // Reload topics for the new round
+  });
 
-  // Load topics for voting
+  // Function to load topics for voting
   function loadTopics() {
-    topicOptions.innerHTML = "";
+    topicOptions.innerHTML = ""; // Clear existing topics
     topics[currentTopicSetIndex].forEach(topic => {
       const button = document.createElement("button");
       button.classList.add("topic-btn");
@@ -99,9 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Load comedian names for voting
+  // Function to load comedian names for voting
   function loadNames() {
-    nameOptions.innerHTML = "";
+    nameOptions.innerHTML = ""; // Clear existing names
     comedians.forEach((name, index) => {
       const button = document.createElement("button");
       button.classList.add("name-btn");
@@ -109,42 +92,50 @@ document.addEventListener("DOMContentLoaded", () => {
       button.addEventListener("click", () => {
         votes[index]++;
         switchScreen(screens.names, screens.results);
-        showResults();
+        showResults(); // Display updated results
       });
       nameOptions.appendChild(button);
     });
   }
 
-  // Show results chart with black bars for contrast on a white background
+  // Function to show results chart
   function showResults() {
     const ctx = resultsChart.getContext("2d");
 
-    setTimeout(() => {
-      if (resultsChartInstance) {
-        resultsChartInstance.data.datasets[0].data = votes;
-        resultsChartInstance.update();
-        console.log("Chart updated with votes:", votes);
-      } else {
-        resultsChartInstance = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: comedians,
-            datasets: [{
-              label: '# of Votes',
-              data: votes,
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              borderColor: 'rgba(0, 0, 0, 1)',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            scales: {
-              y: { beginAtZero: true }
-            }
+    // Update or create the chart instance
+    if (resultsChartInstance) {
+      resultsChartInstance.data.datasets[0].data = votes;
+      resultsChartInstance.update();
+    } else {
+      resultsChartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: comedians,
+          datasets: [{
+            label: '# of Votes',
+            data: votes,
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            borderColor: 'rgba(0, 0, 0, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true }
           }
-        });
-        console.log("Chart created with votes:", votes);
-      }
-    }, 100);
+        }
+      });
+    }
+  }
+
+  // Function to load punishments for the punishment screen
+  function loadPunishments() {
+    punishmentOptions.innerHTML = ""; // Clear existing punishments
+    punishments.forEach(punishment => {
+      const button = document.createElement("button");
+      button.classList.add("punishment-btn");
+      button.textContent = punishment;
+      punishmentOptions.appendChild(button);
+    });
   }
 });
