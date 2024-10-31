@@ -19,54 +19,66 @@
   <!-- Instructions Screen -->
   <div id="instructions-screen" class="screen hidden">
     <h2>How It Works</h2>
-    <p>Welcome to "Joking Off"! Here’s how it works:</p>
     <ol class="rules-list">
       <li><span class="rule-step">Step 1:</span> Comedians perform jokes based on chosen topics.</li>
       <li><span class="rule-step">Step 2:</span> The audience votes for their favorite jokes.</li>
-      <li><span class="rule-step">Step 3:</span> The least voted comedian faces a punishment!</li>
+      <li><span class="rule-step">Step 3:</span> Least-voted comedian faces a punishment!</li>
       <li><span class="rule-step">Step 4:</span> New topics, comedians, and punishments each round!</li>
     </ol>
     <button id="play-button">Play Game</button>
   </div>
 
-  <!-- Voting Screen -->
-  <div id="voting-screen" class="screen hidden">
+  <!-- Page 3: Choose Topic -->
+  <div id="topic-selection-screen" class="screen hidden">
     <h2>Select a Topic</h2>
     <div class="options" id="topic-options"></div>
   </div>
 
-  <!-- Names Screen -->
-  <div id="names-screen" class="screen hidden">
+  <!-- Page 4: Display Chosen Topic Chart -->
+  <div id="topic-chart-screen" class="screen hidden">
+    <h2>Chosen Topic</h2>
+    <canvas id="topic-chart"></canvas>
+    <button id="proceed-to-comedian-selection">Next</button>
+  </div>
+
+  <!-- Page 5: Choose Comedian -->
+  <div id="comedian-selection-screen" class="screen hidden">
     <h2>Select a Comedian</h2>
-    <div class="options" id="name-options"></div>
+    <div class="options" id="comedian-options"></div>
   </div>
 
-  <!-- Results Screen -->
-  <div id="results-screen" class="screen hidden">
-    <h2>Results</h2>
-    <canvas id="results-chart"></canvas>
-    <button id="next-punishment">Next Punishment</button>
+  <!-- Page 7: Display Comedian Votes Chart -->
+  <div id="comedian-vote-chart-screen" class="screen hidden">
+    <h2>Comedian Votes</h2>
+    <canvas id="comedian-vote-chart"></canvas>
+    <button id="generate-new-topics">Generate New Topics</button>
   </div>
 
-  <!-- Punishment Screen -->
-  <div id="punishment-screen" class="screen hidden">
-    <h2>Select a Punishment</h2>
-    <div class="options" id="punishment-options"></div>
-    <button id="restart-button">Restart</button>
-  </div>
-
-  <!-- Page 6: Generate New Topics Screen -->
-  <div id="generate-topics-screen" class="screen hidden">
-    <h2>Generate New Topics</h2>
+  <!-- Page 8: Generate New Topics -->
+  <div id="generate-new-topics-screen" class="screen hidden">
+    <h2>New Topics</h2>
     <div class="options" id="new-topic-options"></div>
-    <button id="generate-topics-button">Generate Topics</button>
-    <button id="proceed-to-vote-button">Proceed to Vote</button>
+    <button id="proceed-to-new-topic-chart">Show Topic Choice Chart</button>
   </div>
 
-  <!-- Page 7: Vote for Comedian Screen -->
-  <div id="vote-comedian-screen" class="screen hidden">
-    <h2>Vote for a Comedian</h2>
-    <div class="options" id="comedian-vote-options"></div>
+  <!-- Page 9: Display New Topic Choice Chart -->
+  <div id="new-topic-chart-screen" class="screen hidden">
+    <h2>New Topic Choice</h2>
+    <canvas id="new-topic-chart"></canvas>
+    <button id="proceed-to-new-comedian-selection">Next</button>
+  </div>
+
+  <!-- Page 10: New Comedian Selection -->
+  <div id="new-comedian-selection-screen" class="screen hidden">
+    <h2>Vote for a New Comedian</h2>
+    <div class="options" id="new-comedian-options"></div>
+  </div>
+
+  <!-- Page 11: New Comedian Votes Chart -->
+  <div id="new-comedian-vote-chart-screen" class="screen hidden">
+    <h2>Final Comedian Votes</h2>
+    <canvas id="new-comedian-vote-chart"></canvas>
+    <button id="end-game-button">End Game</button>
   </div>
 </body>
 </html>
