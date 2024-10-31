@@ -1,112 +1,127 @@
-/* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  background-image: url('./images/background.jpg'); /* Path to your background image */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const screens = {
+    welcome: document.getElementById("welcome-screen"),
+    instructions: document.getElementById("instructions-screen"),
+    voting: document.getElementById("voting-screen"),
+    names: document.getElementById("names-screen"),
+    results: document.getElementById("results-screen"),
+    punishment: document.getElementById("punishment-screen")
+  };
 
-/* Screen Styles */
-.screen {
-  display: none;
-  padding: 50px 20px;
-  position: relative;
-  height: 100vh;
-}
+  const startButton = document.getElementById("start-button");
+  const playButton = document.getElementById("play-button");
+  const nextPunishment = document.getElementById("next-punishment");
+  const restartButton = document.getElementById("restart-button");
 
-.screen.active {
-  display: block;
-}
+  const topicOptions = document.getElementById("topic-options");
+  const nameOptions = document.getElementById("name-options");
+  const punishmentOptions = document.getElementById("punishment-options");
+  const resultsChart = document.getElementById("results-chart");
 
-/* Title and Tagline */
-.show-title, .tagline {
-  color: #333;
-}
+  const topics = [
+    ["Funny Cats", "Awkward Dates", "Weird Dreams", "Bad Jokes"],
+    ["Childhood Memories", "Workplace Fails", "Pet Peeves", "Online Dating"]
+  ];
+  const comedians = ["Comedian A", "Comedian B", "Comedian C", "Comedian D"];
+  const punishments = ["Mouse Trap Mystery Box", "Rubber Band Pull", "Silly Costume", "Singing in Public"];
 
-.show-title {
-  font-size: 48px;
-  margin-bottom: 10px;
-}
+  let currentTopicSetIndex = 0;
+  let votes = [0, 0, 0, 0]; // Track votes for each comedian
+  let resultsChartInstance; // Holds the chart instance
 
-.tagline {
-  font-size: 24px;
-  margin-bottom: 30px;
-  line-height: 1.5;
-}
+  // Screen switching function
+  function switchScreen(hide, show) {
+    hide.classList.remove("active");
+    hide.classList.add("hidden");
+    show.classList.remove("hidden");
+    show.classList.add("active");
+  }
 
-/* Button Styles */
-button {
-  background-color: #0288d1;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  margin: 10px;
-  font-size: 18px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
+  // Start button
+  startButton.addEventListener("click", () => {
+    console.log("Start button clicked");  // Debugging check
+    switchScreen(screens.welcome, screens.instructions);
+  });
 
-button:hover {
-  background-color: #0277bd;
-}
+  // Play button
+  playButton.addEventListener("click", () => {
+    loadTopics();
+    switchScreen(screens.instructions, screens.voting);
+  });
 
-/* Options Layout */
-.options {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+  // Next punishment button
+  nextPunishment.addEventListener("click", () => {
+    loadPunishments();
+    switchScreen(screens.results, screens.punishment);
+  });
 
-.topic-btn, .name-btn, .punishment-btn {
-  background-color: #0288d1;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
+  // Restart button
+  restartButton.addEventListener("click", () => {
+    currentTopicSetIndex = (currentTopicSetIndex + 1) % topics.length;
+    votes.fill(0); // Reset votes
+    switchScreen(screens.punishment, screens.voting);
+    loadTopics();
+  });
 
-.topic-btn:hover, .name-btn:hover, .punishment-btn:hover {
-  background-color: #0277bd;
-}
+  // Load topics for voting
+  function loadTopics() {
+    topicOptions.innerHTML = "";
+    topics[currentTopicSetIndex].forEach(topic => {
+      const button = document.createElement("button");
+      button.classList.add("topic-btn");
+      button.textContent = topic;
+      button.addEventListener("click", () => {
+        loadNames();
+        switchScreen(screens.voting, screens.names);
+      });
+      topicOptions.appendChild(button);
+    });
+  }
 
-/* Rules List Styling */
-.rules-list {
-  text-align: left;
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 0;
-  font-size: 18px;
-  list-style-type: none;
-}
+  // Load comedian names for voting
+  function loadNames() {
+    nameOptions.innerHTML = "";
+    comedians.forEach((name, index) => {
+      const button = document.createElement("button");
+      button.classList.add("name-btn");
+      button.textContent = name;
+      button.addEventListener("click", () => {
+        votes[index]++;
+        switchScreen(screens.names, screens.results);
+        showResults();
+      });
+      nameOptions.appendChild(button);
+    });
+  }
 
-.rules-list li {
-  margin: 15px 0;
-  padding: 10px;
-  background-color: #f1f1f1;
-  color: #333;
-  border-left: 5px solid #0288d1;
-  border-radius: 4px;
-}
+  // Show results chart with black bars for a white background
+  function showResults() {
+    const ctx = resultsChart.getContext("2d");
 
-.rule-step {
-  font-weight: bold;
-  color: #0288d1;
-  margin-right: 5px;
-  display: inline-block;
-}
-
-/* Results Chart */
-canvas {
-  max-width: 600px;
-  margin: auto;
-}
+    setTimeout(() => {
+      if (resultsChartInstance) {
+        resultsChartInstance.data.datasets[0].data = votes;
+        resultsChartInstance.update();
+      } else {
+        resultsChartInstance = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: comedians,
+            datasets: [{
+              label: '# of Votes',
+              data: votes,
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              borderColor: 'rgba(0, 0, 0, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+    }, 100); // Delay to ensure the screen switch is complete
+  }
+});
