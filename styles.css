@@ -1,11 +1,7 @@
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-image: url('./images/background.jpg'); /* Adjust path as needed */
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-color: #f0f0f0; /* Fallback background */
   margin: 0;
   padding: 0;
   text-align: center;
@@ -24,7 +20,7 @@ body {
 }
 
 .hidden {
-  opacity: 0; /* To indicate hidden state */
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -32,6 +28,14 @@ body {
   opacity: 1;
   pointer-events: auto;
   transition: opacity 0.3s ease-in-out;
+}
+
+/* Background for the Welcome Screen */
+#welcome-screen {
+  background-image: url('/Users/jesus.toscano.-nd/Desktop/Joking-Off-App/Mic.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Title and Tagline */
@@ -121,14 +125,7 @@ button:hover {
   width: 100%;
   max-width: 600px;
   height: 400px;
-  background-color: #f9f9f9; /* Light background for visibility */
+  background-color: #f9f9f9;
   margin: auto;
   border: 1px solid #ddd;
-}/* Background for the Welcome Screen */
-#welcome-screen {
-  background-image: url('./Mic.jpg'); /* Adjust path if needed */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
-
